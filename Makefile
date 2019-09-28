@@ -128,15 +128,15 @@ endif
 # include custom configuration (see make help)
 -include config-extra.mak
 
-CORE_FILES = tcc.c tcctools.c libtcc.c tccpp.c tccgen.c tccelf.c tccasm.c tccrun.c
+CORE_FILES = tcc.o tcctools.o libtcc.o tccpp.o tccgen.o tccelf.o tccasm.o tccrun.o
 CORE_FILES += tcc.h config.h libtcc.h tcctok.h
 
-x86_64_FILES = $(CORE_FILES) x86_64-gen.c x86_64-link.c i386-asm.c x86_64-asm.h
-x86_64-win32_FILES = $(x86_64_FILES) tccpe.c
+x86_64_FILES = $(CORE_FILES) x86_64-gen.o x86_64-link.o i386-asm.o x86_64-asm.h
+x86_64-win32_FILES = $(x86_64_FILES) tccpe.o
 x86_64-osx_FILES = $(x86_64_FILES)
 
 # libtcc sources
-LIBTCC_SRC = $(filter-out tcc.c tcctools.c,$(filter %.c,$($T_FILES)))
+LIBTCC_SRC = $(filter-out tcc.o clay.o tcctools.o %.h, $($T_FILES))
 
 ifeq ($(ONE_SOURCE),yes)
 LIBTCC_OBJ = $(X)libtcc.o
@@ -144,19 +144,19 @@ LIBTCC_INC = $($T_FILES)
 TCC_FILES = $(X)tcc.o
 tcc.o : DEFINES += -DONE_SOURCE=0
 else
-LIBTCC_OBJ = $(patsubst %.c,$(X)%.o,$(LIBTCC_SRC))
-LIBTCC_INC = $(filter %.h %-gen.c %-link.c,$($T_FILES))
+LIBTCC_OBJ = $(LIBTCC_SRC)
+LIBTCC_INC = $(patsubst %.h, src/%.h, $(filter %.h, $($T_FILES)))
 TCC_FILES = $(X)tcc.o $(LIBTCC_OBJ)
 $(TCC_FILES) : DEFINES += -DONE_SOURCE=0
 clay.o:	DEFINES += -DONE_SOURCE=0
 endif
 
 # target specific object rule
-$(X)%.o : %.c $(LIBTCC_INC)
+$(X)%.o : src/%.c $(LIBTCC_INC)
 	$(CC) -o $@ -c $< $(DEFINES) $(CFLAGS)
 
 # additional dependencies
-$(X)tcc.o : tcctools.c
+$(X)tcc.o : src/tcctools.c
 
 # Host Tiny C Compiler
 tcc$(EXESUF): tcc.o $(LIBTCC)
@@ -165,10 +165,6 @@ tcc$(EXESUF): tcc.o $(LIBTCC)
 # Clay executable
 clay$(EXESUF): clay.o $(LIBTCC)
 	$(CC) -o $@ $^ $(LIBS) $(LDFLAGS) $(LINK_LIBTCC)
-
-# profiling version
-tcc_p$(EXESUF): $($T_FILES)
-	$(CC) -o $@ $< $(DEFINES) $(CFLAGS_P) $(LIBS_P) $(LDFLAGS_P)
 
 # static libtcc library
 libtcc.a: $(LIBTCC_OBJ)
