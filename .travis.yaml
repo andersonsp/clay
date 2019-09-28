@@ -1,0 +1,48 @@
+language: c
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - gcc-7
+      env:
+         - COMPILER="CC=gcc-7 && CXX=g++-7"
+      before_install: eval "${COMPILER}"
+      script:
+        - ./configure --disable-static --bindir=bin --includedir=include --libdir=lib --sharedir=share
+        - make
+        - make install DESTDIR=build/
+        - make zip
+
+    - os: osx
+      script:
+        - ./configure --disable-static --bindir=bin --includedir=include --libdir=lib --sharedir=share
+        - make
+        - make install DESTDIR=build/
+        - make zip
+
+    - os: windows
+      install:
+        - choco install mingw
+        - choco install 7zip.install
+      script:
+        - ./configure --disable-static --bindir=bin --includedir=include --libdir=lib --sharedir=share
+        - mingw32-make
+        - mingw32-make install DESTDIR=build/
+        - mingw32-make zip
+
+deploy:
+     provider: releases
+     api_key: $DEPLOY_KEY
+     file:
+         - tcc.linux.zip
+         - tcc.macos.zip
+         - tcc.windows.zip
+     skip_cleanup: true
+     on:
+         repo: andseq/clay
+         tags: true

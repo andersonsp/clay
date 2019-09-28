@@ -34,6 +34,7 @@ ifeq ($(CONFIG_musl)$(CONFIG_uClibc),yes)
 endif
 
 ifdef CONFIG_OSX
+ export DYLD_LIBRARY_PATH=..
  XFLAGS += -D_ANSI_SOURCE
 endif
 

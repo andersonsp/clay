@@ -820,6 +820,8 @@ LIBTCCAPI TCCState *tcc_new(void)
 # if defined(__linux__)
     tcc_define_symbol(s, "__linux__", NULL);
     tcc_define_symbol(s, "__linux", NULL);
+# elif defined(__APPLE__)
+    tcc_define_symbol(s, "__APPLE__", NULL);
 # endif
 # if defined(__FreeBSD__)
     tcc_define_symbol(s, "__FreeBSD__", "__FreeBSD__");
@@ -1089,7 +1091,9 @@ LIBTCCAPI int tcc_add_file(TCCState *s, const char *filename)
         }
         s->filetype = filetype;
     }
-    return tcc_add_file_internal(s, filename, flags);
+    int ret = tcc_add_file_internal(s, filename, flags);
+    s->filetype = 0;
+    return ret;
 }
 
 LIBTCCAPI int tcc_add_library_path(TCCState *s, const char *pathname)

@@ -3,6 +3,7 @@
 .#*
 *.o
 *.a
+*.dylib
 *.exe
 *.dll
 *.obj
@@ -18,6 +19,7 @@ tcc_g
 tcc
 *-tcc
 libtcc*.def
+clay
 
 config*.h
 config*.mak
