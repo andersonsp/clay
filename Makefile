@@ -81,7 +81,7 @@ ifeq ($(INCLUDED),no)
 # --------------------------------------------------------------------------
 # running top Makefile
 
-PROGS = tcc$(EXESUF) tcc2$(EXESUF) clay$(EXESUF)
+PROGS = tcc$(EXESUF) clay$(EXESUF)
 TCCLIBS = $(LIBTCC1) $(LIBTCC) $(LIBTCCDEF)
 TCCDOCS = tcc.1 tcc-doc.html tcc-doc.info
 
@@ -130,16 +130,10 @@ endif
 
 CORE_FILES = tcc.c tcctools.c libtcc.c tccpp.c tccgen.c tccelf.c tccasm.c tccrun.c
 CORE_FILES += tcc.h config.h libtcc.h tcctok.h
-i386_FILES = $(CORE_FILES) i386-gen.c i386-link.c i386-asm.c i386-asm.h i386-tok.h
-i386-win32_FILES = $(i386_FILES) tccpe.c
+
 x86_64_FILES = $(CORE_FILES) x86_64-gen.c x86_64-link.c i386-asm.c x86_64-asm.h
 x86_64-win32_FILES = $(x86_64_FILES) tccpe.c
 x86_64-osx_FILES = $(x86_64_FILES)
-
-arm_FILES = $(CORE_FILES) arm-gen.c arm-link.c arm-asm.c
-arm-wince_FILES = $(arm_FILES) tccpe.c
-arm64_FILES = $(CORE_FILES) arm64-gen.c arm64-link.c
-c67_FILES = $(CORE_FILES) c67-gen.c c67-link.c tcccoff.c
 
 # libtcc sources
 LIBTCC_SRC = $(filter-out tcc.c tcctools.c,$(filter %.c,$($T_FILES)))
