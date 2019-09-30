@@ -126,18 +126,16 @@ x86_64-osx_FILES = $(x86_64_FILES)
 # libtcc sources
 LIBTCC_SRC = $(filter-out tcc.o clay.o tcctools.o %.h, $($T_FILES))
 
-ifeq ($(ONE_SOURCE),yes)
-LIBTCC_OBJ = $(X)libtcc.o
-LIBTCC_INC = $($T_FILES) config.h
-TCC_FILES = $(X)tcc.o
-tcc.o : DEFINES += -DONE_SOURCE=0
-else
+# ifeq ($(ONE_SOURCE),yes)
+# LIBTCC_OBJ = $(X)libtcc.o
+# LIBTCC_INC = $($T_FILES) config.h
+# TCC_FILES = $(X)tcc.o
+# tcc.o : DEFINES += -DONE_SOURCE=0
+# else
 LIBTCC_OBJ = $(LIBTCC_SRC)
 LIBTCC_INC = $(patsubst %.h, src/%.h, $(filter %.h, $($T_FILES))) config.h
-TCC_FILES = tcc.o $(LIBTCC_OBJ)
-$(TCC_FILES) : DEFINES += -DONE_SOURCE=0
-clay.o:	DEFINES += -DONE_SOURCE=0
-endif
+clay.o tcc.o $(LIBTCC_OBJ):	DEFINES += -DONE_SOURCE=0
+# endif
 
 # target specific object rule
 %.o: src/%.c $(LIBTCC_INC)
