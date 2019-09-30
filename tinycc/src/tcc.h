@@ -321,21 +321,6 @@ extern long double strtold (const char *__nptr, char **__endptr);
 # include "x86_64-gen.c"
 # include "x86_64-link.c"
 #endif
-#ifdef TCC_TARGET_ARM
-# include "arm-gen.c"
-# include "arm-link.c"
-# include "arm-asm.c"
-#endif
-#ifdef TCC_TARGET_ARM64
-# include "arm64-gen.c"
-# include "arm64-link.c"
-#endif
-#ifdef TCC_TARGET_C67
-# define TCC_TARGET_COFF
-# include "coff.h"
-# include "c67-gen.c"
-# include "c67-link.c"
-#endif
 #undef TARGET_DEFS_ONLY
 
 /* -------------------------------------------- */

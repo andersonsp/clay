@@ -20,6 +20,16 @@
 
 #include "tcc.h"
 
+#if defined(_WIN32) && defined(LIBTCC_AS_DLL)
+#define LIBTCCAPI __declspec(dllexport)
+
+#undef ST_INLN
+#undef ST_FUNC
+
+#define ST_INLN LIBTCCAPI
+#define ST_FUNC LIBTCCAPI
+#endif
+
 /********************************************************/
 /* global variables */
 
