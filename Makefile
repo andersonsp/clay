@@ -26,28 +26,28 @@ endif
 # --------------------------------------------------------------------------
 # running top Makefile
 
-PROGS = tinycc/tcc$(EXESUF) tinycc/clay$(EXESUF)
+PROGS = tinycc/kiln$(EXESUF) # tinycc/tcc$(EXESUF)
 TCCLIBS = tinycc/libtcc1.a tinycc/libtcc$(DLLSUF) $(LIBTCCDEF)
 
 all: $(PROGS) $(TCCLIBS)
 
-zip: clay.$(OSFLAG).zip
+zip: kiln.$(OSFLAG).zip
 
-bundle: tinycc/clay
-	@$(MAKE) --no-print-directory bundle-clay$(CFGWIN)
+bundle: tinycc/kiln
+	@$(MAKE) --no-print-directory bundle-kiln$(CFGWIN)
 
 # --------------------------------------------
 
-clay.macos.zip: bundle
-	zip -r $@ clay
+kiln.macos.zip: bundle
+	zip -r $@ kiln
 
-clay.linux.zip: bundle
-	zip -r $@ clay
+kiln.linux.zip: bundle
+	zip -r $@ kiln
 
-clay.windows.zip: bundle
-	7za a -tzip $@ -r clay
+kiln.windows.zip: bundle
+	7za a -tzip $@ -r kiln
 
-tinycc/clay: tinycc/config.mak
+tinycc/kiln: tinycc/config.mak
 	 $(MAKE) -C tinycc
 
 tinycc/tcc: tinycc/config.mak
@@ -56,42 +56,60 @@ tinycc/tcc: tinycc/config.mak
 tinycc/config.mak:
 	cd tinycc && ./configure --disable-static
 
+$(PROGS): FORCE
+
 FORCE:
 
 
 # --------------------------------------------------------------------------
-# install clay
+# install kiln
 
-bundle-clay-unx:
-	mkdir -p clay/include
-	mkdir -p clay/lib
-	mkdir -p clay/src
-	mkdir -p clay/examples
-	cp $(PROGS) clay
-	cp $(TCCLIBS) clay
-	cp tinycc/src/tcclib.h tinycc/src/libtcc.h clay/include
-	cp -r vendor/all/include/* clay/include
-	cp -r vendor/$(OSFLAG)/include/* clay/include
-	cp -r vendor/$(OSFLAG)/lib/* clay/lib
-	cp -r examples/* clay/src
+bundle-kiln-unx:
+	mkdir -p kiln/include
+	mkdir -p kiln/lib
+	mkdir -p kiln/src
+	mkdir -p kiln/plugin
+	mkdir -p kiln/examples
+	mkdir -p kiln/etc
+	cp $(PROGS) kiln
+	cp $(TCCLIBS) kiln
+	cp tinycc/src/tcclib.h tinycc/src/libtcc.h kiln/include
+	cp tinycc/src/clay.h kiln/include
 
-bundle-clay-win:
-	mkdir -p clay/include
-	mkdir -p clay/lib
-	mkdir -p clay/src
-	mkdir -p clay/examples
-	cp $(PROGS) clay
-	cp tinycc/libtcc1.a clay
-	cp tinycc/win32/lib/*.def clay/lib
-	cp tinycc/tcclib.h tinycc/libtcc.h clay/include
-	cp tinycc/win32/include clay/include
-	cp tinycc/win32/examples clay/examples
-	cp tinycc/libtcc.dll tinycc/libtcc.def clay/lib
+	cp -r vendor/all/include/* kiln/include
+	cp -r vendor/$(OSFLAG)/include/* kiln/include
+	cp -r vendor/$(OSFLAG)/lib/* kiln/lib
 
-	cp -r vendor/all/include/* clay/include
-	cp -r vendor/$(OSFLAG)/include/* clay/include
-	cp -r vendor/$(OSFLAG)/lib/* clay/lib
-	cp -r examples/* clay/src
+	cp -r examples/* kiln/examples
+	cp -r etc/* kiln/etc
+
+# 	touch kiln/.kiln
+
+bundle-kiln-win:
+	mkdir -p kiln/include
+	mkdir -p kiln/lib
+	mkdir -p kiln/src
+	mkdir -p kiln/plugin
+	mkdir -p kiln/examples
+	mkdir -p kiln/etc
+	cp $(PROGS) kiln
+	cp tinycc/libtcc1.a kiln
+	cp tinycc/win32/lib/*.def kiln/lib
+	cp tinycc/src/tcclib.h tinycc/src/libtcc.h kiln/include
+	cp tinycc/src/clay.h kiln/include
+
+	cp tinycc/win32/include kiln/include
+	cp tinycc/win32/examples kiln/examples/win32
+	cp tinycc/libtcc.dll tinycc/libtcc.def kiln/lib
+
+	cp -r vendor/all/include/* kiln/include
+	cp -r vendor/$(OSFLAG)/include/* kiln/include
+	cp -r vendor/$(OSFLAG)/lib/* kiln/lib
+
+	cp -r examples/* kiln/examples
+	cp -r etc/* kiln/etc
+
+# 	touch kiln/.kiln
 
 # --------------------------------------------------------------------------
 # other stuff
@@ -100,8 +118,8 @@ clean:
 	@$(MAKE) -C tinycc $@
 
 distclean: clean
-	rm -r clay
-	rm -f clay.$(OSFLAG).zip
+	rm -r kiln
+	rm -f kiln.$(OSFLAG).zip
 
 .PHONY: all bundle zip clean distclean FORCE
 #

@@ -1,0 +1,51 @@
+{
+    "working_dir": "$folder",
+    "keyfiles": [".kiln"],
+
+    "selector": "source.c",
+    "file_patterns": ["*.c"],
+    "quiet": true,
+
+    "windows": {
+        "cmd": ["./kiln.exe"]
+    },
+
+    "osx": {
+        "cmd": ["./kiln"]
+    },
+
+    "linux": {
+        "cmd": ["./kiln"]
+    },
+
+    "variants": [
+        {
+            "name": "Kiln SDL",
+            "windows": {
+                "cmd": ["./kiln.exe", "-lSDL2"]
+            },
+
+            "osx": {
+                "cmd": ["./kiln", "-lSDL2"]
+            },
+
+            "linux": {
+                "cmd": ["./kiln", "-lSDL2"]
+            }
+        },
+        {
+            "name": "Kiln GLFW",
+            "windows": {
+                "cmd": ["./kiln.exe", "-lglfw"]
+            },
+
+            "osx": {
+                "cmd": ["./kiln", "-lglfw"]
+            },
+
+            "linux": {
+                "cmd": ["./kiln", "-lglfw"]
+            }
+        }
+    ]
+}

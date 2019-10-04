@@ -20,6 +20,7 @@ tcc
 *-tcc
 libtcc*.def
 clay
+kiln
 
 config*.h
 config*.mak

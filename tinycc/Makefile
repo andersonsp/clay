@@ -75,7 +75,7 @@ ifeq ($(INCLUDED),no)
 # --------------------------------------------------------------------------
 # running top Makefile
 
-PROGS = tcc$(EXESUF) clay$(EXESUF)
+PROGS = tcc$(EXESUF) kiln$(EXESUF)
 TCCLIBS = $(LIBTCC1) $(LIBTCC) $(LIBTCCDEF)
 TCCDOCS = tcc.1 tcc-doc.html tcc-doc.info
 
@@ -124,7 +124,7 @@ x86_64-win32_FILES = $(x86_64_FILES) tccpe.o
 x86_64-osx_FILES = $(x86_64_FILES)
 
 # libtcc sources
-LIBTCC_SRC = $(filter-out tcc.o clay.o tcctools.o %.h, $($T_FILES))
+LIBTCC_SRC = $(filter-out tcc.o kiln.o tcctools.o %.h, $($T_FILES))
 
 # ifeq ($(ONE_SOURCE),yes)
 # LIBTCC_OBJ = $(X)libtcc.o
@@ -134,7 +134,7 @@ LIBTCC_SRC = $(filter-out tcc.o clay.o tcctools.o %.h, $($T_FILES))
 # else
 LIBTCC_OBJ = $(LIBTCC_SRC)
 LIBTCC_INC = $(patsubst %.h, src/%.h, $(filter %.h, $($T_FILES))) config.h
-clay.o tcc.o $(LIBTCC_OBJ):	DEFINES += -DONE_SOURCE=0
+kiln.o tcc.o $(LIBTCC_OBJ):	DEFINES += -DONE_SOURCE=0
 # endif
 
 # target specific object rule
@@ -148,8 +148,8 @@ tcc.o : src/tcctools.c
 tcc$(EXESUF): tcc.o $(LIBTCC)
 	$(CC) -o $@ $^ $(LIBS) $(LDFLAGS)
 
-# Clay executable
-clay$(EXESUF): clay.o $(LIBTCC)
+# kiln executable
+kiln$(EXESUF): kiln.o $(LIBTCC)
 	$(CC) -o $@ $^ $(LIBS) $(LDFLAGS)
 
 # static libtcc library
@@ -183,13 +183,13 @@ XTCC ?= ./tcc$(EXESUF)
 libtcc1.a : tcc$(EXESUF) FORCE
 	@$(MAKE) -C lib DEFINES='$(DEF-$T)'
 
-# clay.macos.zip:
+# kiln.macos.zip:
 # 	zip -r $@ build
 
-# clay.linux.zip:
+# kiln.linux.zip:
 # 	zip -r $@ build
 
-# clay.windows.zip:
+# kiln.windows.zip:
 # 	7za a -tzip $@ -r build
 
 # build:
@@ -211,9 +211,9 @@ tcc-doc.info: tcc-doc.texi
 	makeinfo $< || true
 
 # --------------------------------------------------------------------------
-# install clay
+# install kiln
 
-# bundle-clay-unx:
+# bundle-kiln-unx:
 # 	mkdir -p build/include
 # 	mkdir -p build/lib
 # 	mkdir -p build/src
@@ -226,7 +226,7 @@ tcc-doc.info: tcc-doc.texi
 # 	cp -r vendor/$(OSFLAG)/include/* build/include
 # 	cp -r vendor/$(OSFLAG)/lib/* build/lib
 
-# bundle-clay-win:
+# bundle-kiln-win:
 # 	mkdir -p build/include
 # 	mkdir -p build/lib
 # 	mkdir -p build/src
@@ -263,7 +263,7 @@ tests2.%:
 	$(MAKE) -C tests/tests2 $@
 
 clean:
-	rm -f clay$(EXESUF) tcc$(EXESUF) tcc_p$(EXESUF) *-tcc$(EXESUF) tcc.pod
+	rm -f kiln$(EXESUF) tcc$(EXESUF) tcc_p$(EXESUF) *-tcc$(EXESUF) tcc.pod
 	rm -f  *~ *.o *.a *.so* *.out *.log lib*.def *.exe *.dll *.dylib a.out tags TAGS
 	@$(MAKE) -C lib $@
 	@$(MAKE) -C tests $@
