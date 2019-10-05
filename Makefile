@@ -45,7 +45,7 @@ kiln.linux.zip: bundle
 	zip -r $@ kiln
 
 kiln.windows.zip: bundle
-	7za a -tzip $@ -r kiln
+	7z a -tzip $@ -r kiln
 
 tinycc/kiln: tinycc/config.mak
 	 $(MAKE) -C tinycc
@@ -90,7 +90,7 @@ bundle-kiln-win:
 	mkdir -p kiln/lib
 	mkdir -p kiln/src
 	mkdir -p kiln/plugin
-	mkdir -p kiln/examples
+	mkdir -p kiln/examples/win32
 	mkdir -p kiln/etc
 	cp $(PROGS) kiln
 	cp tinycc/libtcc1.a kiln
@@ -98,9 +98,9 @@ bundle-kiln-win:
 	cp tinycc/src/tcclib.h tinycc/src/libtcc.h kiln/include
 	cp tinycc/src/clay.h kiln/include
 
-	cp tinycc/win32/include kiln/include
-	cp tinycc/win32/examples kiln/examples/win32
 	cp tinycc/libtcc.dll tinycc/libtcc.def kiln/lib
+	cp -r tinycc/win32/include kiln/include
+	cp -r tinycc/win32/examples kiln/examples/win32
 
 	cp -r vendor/all/include/* kiln/include
 	cp -r vendor/$(OSFLAG)/include/* kiln/include

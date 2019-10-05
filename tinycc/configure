@@ -152,9 +152,9 @@ done
 
 if test -z "$cpu" ; then
     if test -n "$ARCH" ; then
-	cpu="$ARCH"
+  cpu="$ARCH"
     else
-	cpu=`uname -m`
+  cpu=`uname -m`
     fi
 fi
 
@@ -168,16 +168,16 @@ case "$cpu" in
   arm*)
     case "$cpu" in
       arm|armv4l)
-	cpuver=4
+  cpuver=4
       ;;
       armv5tel|armv5tejl)
-	cpuver=5
+  cpuver=5
       ;;
       armv6j|armv6l)
-	cpuver=6
+  cpuver=6
       ;;
       armv7a|armv7l)
-	cpuver=7
+  cpuver=7
       ;;
     esac
     cpu="arm"
@@ -266,7 +266,7 @@ Standard options:
   --help                   print this message
   --prefix=PREFIX          install in PREFIX [$prefix]
   --exec-prefix=EPREFIX    install architecture-dependent files in EPREFIX
-			   [same as prefix]
+         [same as prefix]
   --bindir=DIR             user executables in DIR [EPREFIX/bin]
   --libdir=DIR             object code libraries in DIR [EPREFIX/lib]
   --tccdir=DIR             installation directory [EPREFIX/lib/tcc]
@@ -334,14 +334,14 @@ if test -z "$cross_prefix" ; then
       fi
 
       if test "$cpu" = "arm" ; then
-	if test "${triplet%eabihf}" != "$triplet" ; then
-	   confvars="$confvars arm_eabihf"
-	elif test "${triplet%eabi}" != "$triplet" ; then
-	   confvars="$confvars arm_eabi"
-	fi
-	if grep -s -q "^Features.* \(vfp\|iwmmxt\) " /proc/cpuinfo ; then
-	   confvars="$confvars arm_vfp"
-	fi
+  if test "${triplet%eabihf}" != "$triplet" ; then
+     confvars="$confvars arm_eabihf"
+  elif test "${triplet%eabi}" != "$triplet" ; then
+     confvars="$confvars arm_eabi"
+  fi
+  if grep -s -q "^Features.* \(vfp\|iwmmxt\) " /proc/cpuinfo ; then
+     confvars="$confvars arm_vfp"
+  fi
       fi
 
       if test "$suggest" = "yes"; then
@@ -366,7 +366,7 @@ fi
 
 # a final configuration tuning
 if ! echo "$cc" | grep -q "tcc"; then
-  OPT1="-Wdeclaration-after-statement -fno-strict-aliasing"
+  OPT1="-fno-strict-aliasing"
   # we want -Wno- but gcc does not always reject unknown -Wno- options
   OPT2="-Wpointer-sign -Wsign-compare -Wunused-result"
   if echo "$cc" | grep -q "clang"; then
@@ -480,7 +480,7 @@ echo "@set VERSION $version" > config.texi
 if test "$source_path_used" = "yes" ; then
     case $source_path in
        /*) echo "TOPSRC=$source_path";;
-	*) echo "TOPSRC=\$(TOP)/$source_path";;
+  *) echo "TOPSRC=\$(TOP)/$source_path";;
      esac >>config.mak
 else
      echo 'TOPSRC=$(TOP)' >>config.mak
@@ -503,15 +503,15 @@ fn_makelink()
     tgt=$1/$2
     case $2 in
     */*) dn=${2%/*}
-	 test -d $dn || mkdir -p $dn
-	 case $1 in
-	 /*) ;;
-	  *) while test $dn ; do
-		tgt=../$tgt; dn=${dn#${dn%%/*}}; dn=${dn#/}
-	     done
-	     ;;
-	 esac
-	 ;;
+   test -d $dn || mkdir -p $dn
+   case $1 in
+   /*) ;;
+    *) while test $dn ; do
+    tgt=../$tgt; dn=${dn#${dn%%/*}}; dn=${dn#/}
+       done
+       ;;
+   esac
+   ;;
     esac
 
     ln -sfn $tgt $2 || ( echo "ln failed. Using cp instead."; cp -f $1/$2 $2 )

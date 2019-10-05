@@ -6,6 +6,7 @@
 *.dylib
 *.exe
 *.dll
+!libglfw.dll
 *.obj
 *.pdb
 *.lib
