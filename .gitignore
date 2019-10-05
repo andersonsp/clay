@@ -3,10 +3,10 @@
 .#*
 *.o
 *.a
+*.so
 *.dylib
 *.exe
 *.dll
-!libglfw.dll
 *.obj
 *.pdb
 *.lib
@@ -22,6 +22,10 @@ tcc
 libtcc*.def
 clay
 kiln
+
+!vendor/**/*.dll
+!vendor/**/*.dylib
+!vendor/**/*.so
 
 config*.h
 config*.mak
